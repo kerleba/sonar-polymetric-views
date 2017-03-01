@@ -1,1 +1,1 @@
-# sonar-polymetric-views
+# SonarQube polymetric views plugin

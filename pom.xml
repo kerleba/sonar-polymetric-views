@@ -42,12 +42,6 @@
 
         <!-- unit tests -->
         <dependency>
-            <groupId>org.sonarsource.sonarqube</groupId>
-            <artifactId>sonar-testing-harness</artifactId>
-            <version>${sonar.apiVersion}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -56,6 +50,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
@@ -63,8 +58,10 @@
                 <version>1.16</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <pluginKey>example</pluginKey>
-                    <pluginClass>org.sonarsource.plugins.example.ExamplePlugin</pluginClass>
+                    <pluginKey>sonarPolymetricViews</pluginKey>
+                    <pluginClass>main.java.plugin.PolymetricViewsPlugin</pluginClass>
+                    <pluginName>SonarQube Polymetric Views Plugin</pluginName>
+                    <pluginDescription> Display polymetric view </pluginDescription>
                 </configuration>
             </plugin>
             <plugin>
@@ -92,4 +89,11 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Internal repo</name>
+            <url>file://${project.build.directory}</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -1,11 +1,6 @@
 package main.java.plugin;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
-import org.sonar.api.SonarPlugin;
 
 /**
  * PolymetricViews plugin definition.
@@ -29,6 +24,6 @@ public class PolymetricViewsPlugin implements Plugin {
          */
     @Override
     public void define(Context context) {
-        context.addExtension(PolymetricViewsWidget.class);
+        context.addExtension(PolymetricViewsPageDefinition.class);
     }
 }

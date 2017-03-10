@@ -1,0 +1,11 @@
+{
+  "class": "Classname",
+  "metric1": 20,
+  "metric2": 16,
+  "children": {
+    "class": "Classname2",
+    "children": {},
+    "metric1": 10,
+    "metric2": 15
+  }
+}

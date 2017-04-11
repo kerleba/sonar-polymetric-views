@@ -22,6 +22,12 @@
 <script>
 
 
+
+    const WHITE = 'white';
+    const GRAY = 'gray';
+    const BLACK = 'black';
+
+
     var imported = document.createElement('script');
     document.head.appendChild(imported);
 
@@ -82,6 +88,7 @@
                 "children_width": 0,
                 "x" : 0,
                 "y" : 0,
+                "color" : WHITE,
                 "children": [
                     {
                         "class": "Classname2",
@@ -90,55 +97,61 @@
                         "children_width": 0,
                         "x" : 0,
                         "y" : 0,
+                        "color" : WHITE,
                         "children": []
                     }
                 ]
             },
             {
-                "class": "Classname2",
+                "class": "Classname3",
                 "width": 50,
                 "height": 90,
                 "children_width": 0,
                 "x" : 0,
                 "y" : 0,
+                "color" : WHITE,
                 "children": []
             },
             {
-                "class": "Classname2",
+                "class": "Classname4",
                 "width": 50,
                 "height": 70,
                 "children_width": 0,
                 "x" : 0,
                 "y" : 0,
+                "color" : WHITE,
                 "children": [
                     {
-                        "class": "Classname2",
+                        "class": "Classname5",
                         "width": 10,
                         "height": 40,
                         "children_width": 0,
                         "x" : 0,
                         "y" : 0,
+                        "color" : WHITE,
                         "children": []
                     },
                     {
-                        "class": "Classname2",
+                        "class": "Classname6",
                         "width": 60,
                         "height": 90,
                         "children_width": 0,
                         "x" : 0,
                         "y" : 0,
+                        "color" : WHITE,
                         "children": []
                     }
                 ]
 
             },
             {
-                "class": "Classname2",
+                "class": "Classname7",
                 "width": 50,
                 "height": 30,
                 "children_width": 0,
                 "x" : 0,
                 "y" : 0,
+                "color" : WHITE,
                 "children": []
             }
         ];
@@ -157,7 +170,7 @@
         current_x = 1;
         current_y = init_y;
         var classes = [];
-
+/**
         data2.forEach( function (node) {
             // this is root node
             node.y = current_y;
@@ -174,8 +187,74 @@
             current_x += Math.max(node.children_width, node.width) + space;
             classes.push(node);
 
-        });
+        }); */
 
+
+        function goThroughClasses(data) {
+            var classes = [];
+
+            data.forEach( function (root) {
+                var stack = [];
+
+                root.parent = null;
+                stack.push(root);
+
+                while (stack.length > 0) {
+                    console.log(stack);
+                    current = stack.pop();
+                    console.log(current);
+
+                    if (current.color == WHITE && current.children.length > 0) {
+                        stack.push(current);
+                        current.color = GRAY;
+                        current.y = current_y;
+
+                        // add all of his children to stack
+                        current.children.forEach( function (node) {
+                            node.parent = current;
+
+                            stack.push(node)
+                        })
+                    }
+                    else if (current.color == WHITE && current.children.length == 0) {
+                        // it is leaf
+
+                        if (current.parent == null) {
+                            // it is also root
+                            current.x = current_x;
+                            current.y = current_y;
+                            current_y = init_y;
+                            current_x += current.width + space;
+                        } else {
+                            parrent = current.parent;
+
+                            current.y = parrent.y + parrent.height + LINE_LENGTH;
+                            current.x = current_x + parrent.children_width;
+                            parrent.children_width += current.width + space;
+                        }
+
+
+                        classes.push(current);
+                        current.color = BLACK;
+
+                    }
+                    else if (current.color == GRAY) {
+                        current.x = current_x + Math.max(current.children_width, current.width) / 2 - current.width / 2;
+                        current_y = init_y;
+                        current_x += Math.max(current.children_width, current.width) + space;
+                        classes.push(current);
+                        current.color = BLACK;
+                    }
+                }
+            });
+
+            return classes;
+        }
+
+        classes = goThroughClasses(data2);
+        
+
+        console.log(classes);
 
 
 
@@ -240,8 +319,6 @@
         var svg = div.append("svg")
                 .attr("width", width)
                 .attr("height", height);
-
-        console.log(classes);
 
         var rect = svg.selectAll("rect")
                 .data(classes)

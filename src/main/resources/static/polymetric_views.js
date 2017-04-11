@@ -103,7 +103,152 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             }
         ];
 
-        var lines = [
+        var data2 = [
+            {
+                "class": "Classname",
+                "width": 50,
+                "height": 70,
+                "children_width": 0,
+                "x" : 0,
+                "y" : 0,
+                "children": [
+                    {
+                        "class": "Classname2",
+                        "width": 25,
+                        "height": 90,
+                        "children_width": 0,
+                        "x" : 0,
+                        "y" : 0,
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "class": "Classname2",
+                "width": 50,
+                "height": 90,
+                "children_width": 0,
+                "x" : 0,
+                "y" : 0,
+                "children": []
+            },
+            {
+                "class": "Classname2",
+                "width": 50,
+                "height": 30,
+                "children_width": 0,
+                "x" : 0,
+                "y" : 0,
+                "children": []
+            },
+            {
+                "class": "Classname2",
+                "width": 50,
+                "height": 70,
+                "children_width": 0,
+                "x" : 0,
+                "y" : 0,
+                "children": [
+                    {
+                        "class": "Classname2",
+                        "width": 10,
+                        "height": 40,
+                        "children_width": 0,
+                        "x" : 0,
+                        "y" : 0,
+                        "children": []
+                    },
+                    {
+                        "class": "Classname2",
+                        "width": 40,
+                        "height": 90,
+                        "children_width": 0,
+                        "x" : 0,
+                        "y" : 0,
+                        "children": []
+                    }
+                ]
+
+            }
+        ];
+
+
+        // při traversování dolů předávat potomkům výšku (parent.y + parent.height + LINE_LENGTH)
+        // strom procházet do šířky
+        // dojít až dolů a spočítat šířku listů
+        // iniciálně mají všechny nodes children_width = 0
+        // každý potomek udělá parent.children_width += node.width (+spacing)
+
+
+
+        function max(var1, var2) {
+            return var1 > var2 ? var1 : var2;
+        }
+
+
+        init_y = 1;
+        space = 5;
+
+        current_x = 1;
+        current_y = init_y;
+        var classes = [];
+
+        data2.forEach( function (node) {
+            // this is root node
+            node.y = current_y;
+            node.children.forEach( function (child) {
+                // ToDo: go deeper in tree
+                child.y = node.y + node.height;
+                child.x = current_x + node.children_width;
+                node.children_width += child.width + space;
+                classes.push(child);
+
+            });
+            node.x = current_x;
+            current_y = init_y;
+            current_x += max(node.children_width, node.width) + space;
+            classes.push(node);
+
+        });
+
+
+
+
+        // získat maximální šířku podstromu max_tree_width
+        // rodič bude mít x = max_tree_width / 2 - width / 2
+        // a y = 0
+        //
+
+
+
+        // projít strom s už spočítanými pozicemi
+        // vygenerovat pole lines
+
+  /**      var lines = [];
+
+        items.forEach( function (item) {
+            console.log(item);
+            item.children.forEach( function (child) {
+                lines.push(
+                    {
+                        "x1": item.x + (item.metric1 / 2),
+                        "y1": item.y + item.metric2,
+                        "x2": child.x + (child.metric1 / 2),
+                        "y2": child.y + child.metric2
+                    }
+                )
+
+            })
+        });
+   **/
+
+        // function getLineBetweenClasses(class1, class2) {
+        // x1 = class1.x + (class1.width / 2)
+        // y1 = class1.y + class1.height
+        // x2 = class2.x + (class2.width / 2)
+        // y2 = class2.y + class2.height
+
+        /**var lines = [
             {
                 "x1": 25,
                 "y1": 70,
@@ -123,6 +268,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 "y2": 85
             }
         ];
+         */
 
         var width = 600;
         var height = 700;
@@ -140,16 +286,18 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             .attr("width", width)
             .attr("height", height);
 
+        console.log(classes);
+
         var rect = svg.selectAll("rect")
-            .data(items)
+            .data(classes)
             .enter().append("rect")
             .attr("style", "fill:rgb(188, 188, 186);stroke-width:1;stroke:rgb(0,0,0)")
-            .attr("width", function(d) { return d.metric1; })
-            .attr("height", function(d) { return d.metric2; })
+            .attr("width", function(d) { return d.width; })
+            .attr("height", function(d) { return d.height; })
             .attr("x", function(d) { return d.x; })
             .attr("y", function(d) { return d.y; });
 
-        var line = svg.selectAll("line")
+     /**   var line = svg.selectAll("line")
             .data(lines)
             .enter().append("line")
             .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")
@@ -157,7 +305,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             .attr("x2", function(d) { return d.x2; })
             .attr("y1", function(d) { return d.y1; })
             .attr("y2", function(d) { return d.y2; });
-
+*/
 
     };
 

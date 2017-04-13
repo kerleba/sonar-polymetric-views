@@ -8,6 +8,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
 
 
         const WHITE = 'white';
+        const PURPLE = 'purple';
         const GRAY = 'gray';
         const BLACK = 'black';
 
@@ -94,7 +95,49 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     "x" : 0,
                     "y" : 0,
                     "color" : WHITE,
-                    "children": []
+                    "children": [
+                        {
+                        "class": "Classname3- child1",
+                        "width": 40,
+                        "height": 120,
+                        "children_width": 0,
+                        "x" : 0,
+                        "y" : 0,
+                        "color" : WHITE,
+                        "children": [
+                            {
+                                "class": "Classname3- child- child",
+                                "width": 34,
+                                "height": 20,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            },
+                            {
+                                "class": "Classname3 - child - child2",
+                                "width": 23,
+                                "height": 54,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            },
+                            {
+                                "class": "Classname3 - child - child 3",
+                                "width": 50,
+                                "height": 90,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            }
+                        ]
+                        }
+                    ]
                 },
                 {
                     "class": "Classname4",
@@ -123,7 +166,18 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                             "x" : 0,
                             "y" : 0,
                             "color" : WHITE,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "Classname6- child",
+                                    "width": 50,
+                                    "height": 120,
+                                    "children_width": 0,
+                                    "x" : 0,
+                                    "y" : 0,
+                                    "color" : WHITE,
+                                    "children": []
+                                }
+                            ]
                         }
                     ]
 
@@ -166,12 +220,19 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                         stack.push(current);
                         current.color = GRAY;
                         current.y = current_y;
+                        current_y += current.height + LINE_LENGTH;
 
                         // add all of his children to stack
+                        var i = 0;
                         current.children.forEach( function (node) {
                             node.parent = current;
 
-                            stack.push(node)
+                            stack.push(node);
+                            i++;
+                            if (i == 1) {
+                                node.isLastChild = true;
+                            }
+
                         })
                     }
                     else if (current.color == WHITE && current.children.length == 0) {
@@ -199,7 +260,9 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     else if (current.color == GRAY) {
                         current.x = current_x + Math.max(current.children_width, current.width) / 2 - current.width / 2;
                         current_y = init_y;
-                        current_x += Math.max(current.children_width, current.width) + space;
+                        if (current.isLastChild) {
+                            current_x = current.x + current.width + space;
+                        }
                         classes.push(current);
                         current.color = BLACK;
                     }
@@ -225,7 +288,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 }
             });
 
-            var width = 600;
+            var width = 2500;
             var height = 700;
 
             var frame = d3.select(options.el).append("div")
@@ -248,7 +311,8 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 .attr("width", function(d) { return d.width; })
                 .attr("height", function(d) { return d.height; })
                 .attr("x", function(d) { return d.x; })
-                .attr("y", function(d) { return d.y; });
+                .attr("y", function(d) { return d.y; })
+                .attr("class", function (d) { return d.class; });
 
             var line = svg.selectAll("line")
                 .data(lines)

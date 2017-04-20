@@ -110,7 +110,49 @@
                 "x" : 0,
                 "y" : 0,
                 "color" : WHITE,
-                "children": []
+                "children": [
+                    {
+                        "class": "Classname3- child1",
+                        "width": 40,
+                        "height": 120,
+                        "children_width": 0,
+                        "x" : 0,
+                        "y" : 0,
+                        "color" : WHITE,
+                        "children": [
+                            {
+                                "class": "Classname3- child- child",
+                                "width": 34,
+                                "height": 20,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            },
+                            {
+                                "class": "Classname3 - child - child2",
+                                "width": 23,
+                                "height": 54,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            },
+                            {
+                                "class": "Classname3 - child - child 3",
+                                "width": 50,
+                                "height": 90,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 "class": "Classname4",
@@ -139,7 +181,18 @@
                         "x" : 0,
                         "y" : 0,
                         "color" : WHITE,
-                        "children": []
+                        "children": [
+                            {
+                                "class": "Classname6- child",
+                                "width": 50,
+                                "height": 120,
+                                "children_width": 0,
+                                "x" : 0,
+                                "y" : 0,
+                                "color" : WHITE,
+                                "children": []
+                            }
+                        ]
                     }
                 ]
 
@@ -164,63 +217,34 @@
         current_y = init_y;
 
 
-        data = data2;
-
+        current_x = 1;
+        current_y = init_y;
         var classes = [];
         var lines = [];
 
-        data.forEach( function (root) {
-            var stack = [];
-
-            root.parent = null;
-            stack.push(root);
-
-            while (stack.length > 0) {
-                current = stack.pop();
-
-                if (current.color == WHITE && current.children.length > 0) {
-                    stack.push(current);
-                    current.color = GRAY;
-                    current.y = current_y;
-
-                    // add all of his children to stack
-                    current.children.forEach( function (node) {
-                        node.parent = current;
-
-                        stack.push(node)
-                    })
-                }
-                else if (current.color == WHITE && current.children.length == 0) {
-                    // it is leaf
-
-                    if (current.parent == null) {
-                        // it is also root
-                        current.x = current_x;
-                        current.y = current_y;
-                        current_y = init_y;
-                        current_x += current.width + space;
-                    } else {
-                        parrent = current.parent;
-
-                        current.y = parrent.y + parrent.height + LINE_LENGTH;
-                        current.x = current_x + parrent.children_width;
-                        parrent.children_width += current.width + space;
-                    }
+        function processChildren(node) {
+            node.children.forEach( function (child) {
+                child.parent = node; // ToDo: remove
+                child.y = node.y + node.height + LINE_LENGTH;
+                processChildren(child);
+                child.x = current_x + node.children_width;
+                node.children_width += child.width + space;
+                classes.push(child);
 
 
-                    classes.push(current);
-                    current.color = BLACK;
+            });
+        }
 
-                }
-                else if (current.color == GRAY) {
-                    current.x = current_x + Math.max(current.children_width, current.width) / 2 - current.width / 2;
-                    current_y = init_y;
-                    current_x += Math.max(current.children_width, current.width) + space;
-                    classes.push(current);
-                    current.color = BLACK;
-                }
-            }
+        data2.forEach( function (node) {
+            // this is root node
+            node.y = init_y;
+            processChildren(node);
+            node.x = current_x + Math.max(node.children_width, node.width) / 2 - node.width / 2;
+            current_x += node.x + node.width + space;
+            classes.push(node);
+
         });
+
 
 
         console.log(classes);
@@ -240,6 +264,8 @@
                 lines.push(getLineBetweenClasses(item.parent, item))
             }
         });
+
+        console.log(lines);
 
         var width = 600;
         var height = 700;
@@ -267,13 +293,13 @@
                 .attr("y", function(d) { return d.y; });
 
         var line = svg.selectAll("line")
-     .data(lines)
-     .enter().append("line")
-     .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")
-     .attr("x1", function(d) { return d.x1; })
-     .attr("x2", function(d) { return d.x2; })
-     .attr("y1", function(d) { return d.y1; })
-     .attr("y2", function(d) { return d.y2; });
+             .data(lines)
+             .enter().append("line")
+             .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")
+             .attr("x1", function(d) { return d.x1; })
+             .attr("x2", function(d) { return d.x2; })
+             .attr("y1", function(d) { return d.y1; })
+             .attr("y2", function(d) { return d.y2; });
 
     };
 </script>

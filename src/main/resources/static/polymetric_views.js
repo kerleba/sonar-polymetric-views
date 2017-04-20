@@ -211,6 +211,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 var stack = [];
 
                 root.parent = null;
+                root.isLastChild = true;
                 stack.push(root);
 
                 while (stack.length > 0) {
@@ -260,7 +261,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     else if (current.color == GRAY) {
                         current.x = current_x + Math.max(current.children_width, current.width) / 2 - current.width / 2;
                         current_y = init_y;
-                        if (current.isLastChild) {
+                        if (current.isLastChild     ) {
                             current_x = current.x + current.width + space;
                         }
                         classes.push(current);

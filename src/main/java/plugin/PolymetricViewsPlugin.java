@@ -1,5 +1,6 @@
 package main.java.plugin;
 
+import main.java.ws.MetricsWebService;
 import org.sonar.api.Plugin;
 
 /**
@@ -25,5 +26,6 @@ public class PolymetricViewsPlugin implements Plugin {
     @Override
     public void define(Context context) {
         context.addExtension(PolymetricViewsPageDefinition.class);
-    }
+        context.addExtension(MetricsWebService.class);
+    }   
 }

@@ -5,12 +5,9 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
     imported.src = 'https://d3js.org/d3.v4.min.js';
     imported.onload = function () {
 
-
-
-        const WHITE = 'white';
-        const PURPLE = 'purple';
-        const GRAY = 'gray';
-        const BLACK = 'black';
+        window.SonarRequest.getJSON('/api/polymetric_views_service/example', '{}').then(function (response) {
+            console.log(response)
+        });
 
 
         var imported = document.createElement('script');

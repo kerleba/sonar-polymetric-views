@@ -33,6 +33,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>tlestyan.thesis</groupId>
+            <artifactId>framework</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
             <!-- packaged with the plugin -->
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>

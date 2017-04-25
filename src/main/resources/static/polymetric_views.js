@@ -5,7 +5,8 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
     imported.src = 'https://d3js.org/d3.v4.min.js';
     imported.onload = function () {
 
-        window.SonarRequest.getJSON('/api/polymetric_views_service/example', '{}').then(function (response) {
+        window.SonarRequest.getJSON('/api/polymetric_views_service/example', {projectName: options.component.key}).then(function (response) {
+            console.log(options.component.key);
             console.log(response)
         });
 

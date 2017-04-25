@@ -11,6 +11,11 @@ import org.sonar.api.web.page.PageDefinition;
 public class PolymetricViewsPageDefinition implements PageDefinition {
     @Override
     public void define(Context context) {
-        context.addPage(Page.builder("sonarPolymetricViews/polymetric_views").setName("Polymetric views").build());
+        context.addPage(
+                Page.builder("sonarPolymetricViews/polymetric_views")
+                    .setName("Polymetric views")
+                    .setScope(Page.Scope.COMPONENT)
+                    .setComponentQualifiers(Page.Qualifier.PROJECT)
+                    .build());
     }
 }

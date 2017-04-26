@@ -89,6 +89,23 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 }
             ];
 
+            var data_options = ["Lines of code", "Number of attributes", "Cyclomatic complexity"];
+
+            var data_selects = ["Width: ", "Height: ", "Color: "];
+
+            var selects = d3.select(options.el)
+                .selectAll('select')
+                .data(data_selects).enter()
+                .append('select')
+                .attr('class','select')
+                .on('change',onchange);
+
+            var option = selects
+                .selectAll('option')
+                .data(data_options).enter()
+                .append('option')
+                .text(function (d) { return d; });
+
 
             var width = 2500;
             var height = 700;

@@ -17,12 +17,20 @@ MetricsWebService implements WebService {
                 .setDescription("Api for polymetric views visualisation")
                 .setSince("6.3");
         defineExampleAction(controller);
+        defineGetMetricsAction(controller);
         controller.done();
     }
 
     private static void defineExampleAction(NewController controller) {
         controller.createAction("example")
                 .setDescription("Example action")
+                .setSince("6.3")
+                .setHandler(new ExampleAction());
+    }
+
+    private static void defineGetMetricsAction(NewController controller) {
+        controller.createAction("getMetrics")
+                .setDescription("Get all possible metrics")
                 .setSince("6.3")
                 .setHandler(new ExampleAction());
     }

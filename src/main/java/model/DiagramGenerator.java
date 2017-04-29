@@ -52,6 +52,8 @@ public class DiagramGenerator {
     private Collection<ClassDTO> classDTOs;
     private Collection<EdgeDTO> edgeDTOs;
 
+    private double leftOffset;
+
     private boolean cached = false;
 
     private TreeForTreeLayout<ClassComponent> getTree() {
@@ -69,10 +71,12 @@ public class DiagramGenerator {
     /**
      * @param treeLayout the {@link TreeLayout} to be rendered as SVG
      */
-    public DiagramGenerator(TreeLayout<ClassComponent> treeLayout) {
+    public DiagramGenerator(TreeLayout<ClassComponent> treeLayout, double leftOffset) {
         this.treeLayout = treeLayout;
         this.classDTOs = new ArrayList<>();
         this.edgeDTOs = new ArrayList<>();
+        this.leftOffset = leftOffset;
+
     }
 
     // -------------------------------------------------------------------
@@ -85,7 +89,7 @@ public class DiagramGenerator {
             double y1 = b1.getCenterY();
             for (ClassComponent child : getChildren(parent)) {
                 Rectangle2D.Double b2 = getBoundsOfNode(child);
-                this.edgeDTOs.add(new EdgeDTO(x1, y1, b2.getCenterX(), b2.getCenterY()));
+                this.edgeDTOs.add(new EdgeDTO(this.leftOffset + x1, y1, b2.getCenterX(), b2.getCenterY()));
                 generateEdges(child);
             }
         }
@@ -94,7 +98,7 @@ public class DiagramGenerator {
     private void generateBox(ClassComponent ClassComponent) {
         // draw the box in the background
         Rectangle2D.Double box = getBoundsOfNode(ClassComponent);
-        this.classDTOs.add(new ClassDTO(ClassComponent.getFileKey(), box.x + 1, box.y + 1, box.width - 2, box.height - 2));
+        this.classDTOs.add(new ClassDTO(ClassComponent.getFileKey(), this.leftOffset + box.x + 1, box.y + 1, box.width - 2, box.height - 2));
     }
 
     private void generateDiagram() {
@@ -118,5 +122,9 @@ public class DiagramGenerator {
             generateDiagram();
         }
         return Collections.unmodifiableCollection(this.edgeDTOs);
+    }
+
+    public double getNewLeftOffset() {
+        return this.treeLayout.getBounds().getWidth();
     }
 }

@@ -28,10 +28,13 @@ public class ComplexityViewFacade {
     private Collection<ClassDTO> classDTOs;
     private Collection<EdgeDTO> edgeDTOs;
 
+    private double leftOffset;
+
     public ComplexityViewFacade(String projectId) {
         this.projectId = projectId;
         this.classDTOs = new ArrayList<>();
         this.edgeDTOs = new ArrayList<>();
+        this.leftOffset = 0;
     }
 
     public Pair<Collection<ClassDTO>, Collection<EdgeDTO>> getDataFor() {
@@ -61,11 +64,10 @@ public class ComplexityViewFacade {
                 this.classExtentProvider, this.configuration);
 
         // Generate the classes and edges
-        DiagramGenerator generator = new DiagramGenerator(treeLayout);
+        DiagramGenerator generator = new DiagramGenerator(treeLayout,this.leftOffset);
         this.classDTOs.addAll(generator.getClasses());
         this.edgeDTOs.addAll(generator.getEdges());
-
-
+        this.leftOffset = this.leftOffset + generator.getNewLeftOffset() + 10;
     }
 
 

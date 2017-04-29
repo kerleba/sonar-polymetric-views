@@ -1,12 +1,10 @@
 
 package main.java.ws;
 
-import main.java.framework.api.Database;
-import main.java.framework.api.components.ClassComponent;
-import main.java.framework.api.components.IComponent;
+import main.java.model.ClassDTO;
 import main.java.model.ComplexityViewFacade;
-import org.abego.treelayout.util.DefaultTreeForTreeLayout;
-import org.sonar.api.ce.measure.Component;
+import main.java.model.EdgeDTO;
+import org.apache.commons.lang3.tuple.Pair;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
@@ -25,22 +23,22 @@ public class DataAction implements RequestHandler {
         try (JsonWriter json = response.newJsonWriter()) {
             String projectId = request.param(PROJECT_ID);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
-            Collection<DefaultTreeForTreeLayout<ClassComponent>> components = complexityViewFacade.getData();
+            Pair<Collection<ClassDTO>, Collection<EdgeDTO>> data = complexityViewFacade.getDataFor();
+
 
             json.beginObject();
-            if (components.isEmpty()) {
-                json.prop("empty", "true");
-            } else {
-                json.prop("empty", "false");
+            json.name("classes");
+            json.beginArray();
+            for ( ClassDTO classDTO :data.getLeft()) {
+                classDTO.toJson(json);
             }
-            if (Database.getComponents().isEmpty()) {
-                json.prop("empty_components", "true");
+            json.endArray();
+            json.name("edges");
+            json.beginArray();
+            for ( EdgeDTO edgeDTO :data.getRight()) {
+                edgeDTO.toJson(json);
             }
-
-            /*for (IComponent component :
-                    components) {
-                json.prop(component.getID(), "test");
-            }*/
+            json.endArray();
             json.endObject();
         }
     }

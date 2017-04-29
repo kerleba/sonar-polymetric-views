@@ -1,16 +1,17 @@
 package main.java.model;
 
-import main.java.framework.api.Database;
 import main.java.framework.api.components.ClassComponent;
-import main.java.framework.api.components.IComponent;
-import org.abego.treelayout.TreeForTreeLayout;
+import org.abego.treelayout.TreeLayout;
+import org.abego.treelayout.util.DefaultConfiguration;
 import org.abego.treelayout.util.DefaultTreeForTreeLayout;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.sonar.api.internal.google.gson.JsonArray;
+import org.sonar.api.internal.google.gson.JsonObject;
+import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * ToDo: create javadoc
@@ -20,43 +21,52 @@ import java.util.stream.Collectors;
 public class ComplexityViewFacade {
 
     private String projectId;
+    
+    private ClassExtentProvider classExtentProvider;
+    private  DefaultConfiguration<ClassComponent> configuration;
+
+    private Collection<ClassDTO> classDTOs;
+    private Collection<EdgeDTO> edgeDTOs;
 
     public ComplexityViewFacade(String projectId) {
         this.projectId = projectId;
+        this.classDTOs = new ArrayList<>();
+        this.edgeDTOs = new ArrayList<>();
     }
 
-    // ToDo: will be private
-    public Collection<ClassComponent> getClassesForProject(String projectId) {
-        Collection<ClassComponent> components = Database.getClassComponents();
-        return components.stream().filter(x -> x.getSonarProjectID().equals(projectId)).collect(Collectors.toList());
-    }
+    public Pair<Collection<ClassDTO>, Collection<EdgeDTO>> getDataFor() {
+        TreeFactory treeFactory = new TreeFactory();
+        Collection<DefaultTreeForTreeLayout<ClassComponent>> forest = treeFactory.createForestFor(this.projectId);
 
-    public Collection<DefaultTreeForTreeLayout<ClassComponent>> getData() {
-        Collection<DefaultTreeForTreeLayout<ClassComponent>> forest = new ArrayList<>();
+        // create the NodeExtentProvider for ClassComponent nodes
+        this.classExtentProvider = new ClassExtentProvider("loc_class", "loc_class");
 
-        Collection<ClassComponent> components = this.getClassesForProject(this.projectId);
-        for (ClassComponent component :components) {
-            DefaultTreeForTreeLayout<ClassComponent> tree = new DefaultTreeForTreeLayout<>(component);
-            for (ClassComponent childClass: component.getChildren()) {
-                addToTree(tree, component, childClass);
-            }
-            forest.add(tree);
+        // setup the tree layout configuration
+        double gapBetweenLevels = 50;
+        double gapBetweenNodes = 10;
+        this.configuration = new DefaultConfiguration<>(gapBetweenLevels, gapBetweenNodes);
+
+        for (DefaultTreeForTreeLayout<ClassComponent> tree :
+                forest) {
+            this.getDataFor(tree);
         }
-        return forest;
+
+        return new ImmutablePair<>(this.classDTOs, this.edgeDTOs);
     }
 
-    private void addToTree(DefaultTreeForTreeLayout<ClassComponent> tree, ClassComponent parent, ClassComponent child) {
-        tree.addChild(parent, child);
-        parent = child;
-        for (ClassComponent childClass: parent.getChildren()) {
-            addToTree(tree, parent, childClass);
+    private void getDataFor(DefaultTreeForTreeLayout<ClassComponent> tree) {
+       
+        // create the layout
+        TreeLayout<ClassComponent> treeLayout = new TreeLayout<>(tree,
+                this.classExtentProvider, this.configuration);
+
+        // Generate the classes and edges
+        DiagramGenerator generator = new DiagramGenerator(treeLayout);
+        this.classDTOs.addAll(generator.getClasses());
+        this.edgeDTOs.addAll(generator.getEdges());
+
+
     }
-}
-
-
-
-
-
 
 
 }

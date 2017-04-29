@@ -25,7 +25,7 @@ public class DataAction implements RequestHandler {
         try (JsonWriter json = response.newJsonWriter()) {
             String projectId = request.param(PROJECT_ID);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
-            Collection<DefaultTreeForTreeLayout<ClassComponent>> components = complexityViewFacade.getData();
+            String components = complexityViewFacade.getData();
 
             json.beginObject();
             if (components.isEmpty()) {
@@ -36,6 +36,7 @@ public class DataAction implements RequestHandler {
             if (Database.getComponents().isEmpty()) {
                 json.prop("empty_components", "true");
             }
+            json.prop("data", components);
 
             /*for (IComponent component :
                     components) {

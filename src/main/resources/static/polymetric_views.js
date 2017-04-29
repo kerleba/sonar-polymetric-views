@@ -10,6 +10,10 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             console.log(response)
         });
 
+        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectName: options.component.key}).then(function (response) {
+            console.log(response)
+        });
+
 
         var imported = document.createElement('script');
         document.head.appendChild(imported);

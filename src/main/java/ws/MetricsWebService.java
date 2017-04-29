@@ -17,6 +17,7 @@ MetricsWebService implements WebService {
                 .setDescription("Api for polymetric views visualisation")
                 .setSince("6.3");
         defineExampleAction(controller);
+        defineDataAction(controller);
         controller.done();
     }
 
@@ -25,5 +26,12 @@ MetricsWebService implements WebService {
                 .setDescription("Example action")
                 .setSince("6.3")
                 .setHandler(new ExampleAction());
+    }
+
+    private static void defineDataAction(NewController controller) {
+        controller.createAction("data")
+                .setDescription("Get data for system complexity view")
+                .setSince("6.3")
+                .setHandler(new DataAction());
     }
 }

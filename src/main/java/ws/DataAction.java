@@ -14,11 +14,14 @@ import java.util.Collection;
 
 public class DataAction implements RequestHandler {
 
+    // ToDo: share constants with JS
+    public static final String PROJECT_ID = "projectId";
+
     @Override
     public void handle(Request request, Response response) throws Exception {
 
         try (JsonWriter json = response.newJsonWriter()) {
-            String projectId = "java-school"; // ToDo: get from request
+            String projectId = request.param(PROJECT_ID);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
             Collection<IComponent> components = complexityViewFacade.getClassesForProject(projectId);
 

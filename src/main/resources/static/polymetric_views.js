@@ -10,7 +10,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             console.log(response)
         });
 
-        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectName: options.component.key}).then(function (response) {
+        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectId: options.component.key}).then(function (response) {
             console.log(response)
         });
 

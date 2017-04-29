@@ -29,9 +29,14 @@ MetricsWebService implements WebService {
     }
 
     private static void defineDataAction(NewController controller) {
-        controller.createAction("data")
+        WebService.NewAction action = controller.createAction("data")
                 .setDescription("Get data for system complexity view")
                 .setSince("6.3")
                 .setHandler(new DataAction());
+
+        action
+            .createParam(DataAction.PROJECT_ID)
+            .setDescription("Project id")
+            .setExampleValue("my_project");
     }
 }

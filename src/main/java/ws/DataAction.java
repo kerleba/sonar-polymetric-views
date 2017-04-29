@@ -2,8 +2,10 @@
 package main.java.ws;
 
 import main.java.framework.api.Database;
+import main.java.framework.api.components.ClassComponent;
 import main.java.framework.api.components.IComponent;
 import main.java.model.ComplexityViewFacade;
+import org.abego.treelayout.util.DefaultTreeForTreeLayout;
 import org.sonar.api.ce.measure.Component;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -23,7 +25,7 @@ public class DataAction implements RequestHandler {
         try (JsonWriter json = response.newJsonWriter()) {
             String projectId = request.param(PROJECT_ID);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
-            Collection<IComponent> components = complexityViewFacade.getClassesForProject(projectId);
+            Collection<DefaultTreeForTreeLayout<ClassComponent>> components = complexityViewFacade.getData();
 
             json.beginObject();
             if (components.isEmpty()) {
@@ -35,10 +37,10 @@ public class DataAction implements RequestHandler {
                 json.prop("empty_components", "true");
             }
 
-            for (IComponent component :
+            /*for (IComponent component :
                     components) {
                 json.prop(component.getID(), "test");
-            }
+            }*/
             json.endObject();
         }
     }

@@ -6,9 +6,6 @@ import org.abego.treelayout.util.DefaultConfiguration;
 import org.abego.treelayout.util.DefaultTreeForTreeLayout;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.sonar.api.internal.google.gson.JsonArray;
-import org.sonar.api.internal.google.gson.JsonObject;
-import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.ArrayList;
 import java.util.Collection;

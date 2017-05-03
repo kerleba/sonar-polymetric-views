@@ -16,6 +16,8 @@ public class DataAction implements RequestHandler {
 
     // ToDo: share constants with JS
     public static final String PROJECT_ID = "projectId";
+    public static final String CLASSES = "classes";
+    public static final String EDGES = "edges";
 
     @Override
     public void handle(Request request, Response response) throws Exception {
@@ -27,18 +29,21 @@ public class DataAction implements RequestHandler {
 
 
             json.beginObject();
-            json.name("classes");
+
+            json.name(CLASSES);
             json.beginArray();
-            for ( ClassDTO classDTO :data.getLeft()) {
+            for (ClassDTO classDTO: data.getLeft()) {
                 classDTO.toJson(json);
             }
             json.endArray();
-            json.name("edges");
+
+            json.name(EDGES);
             json.beginArray();
-            for ( EdgeDTO edgeDTO :data.getRight()) {
+            for (EdgeDTO edgeDTO: data.getRight()) {
                 edgeDTO.toJson(json);
             }
             json.endArray();
+
             json.endObject();
         }
     }

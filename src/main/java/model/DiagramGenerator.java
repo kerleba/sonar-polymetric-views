@@ -29,7 +29,6 @@
  */
 package main.java.model;
 
-import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,8 +40,6 @@ import org.abego.treelayout.TreeLayout;
 
 
 /**
- * Generates SVG for a given {@link TreeLayout} of {@link ClassComponent} nodes.
- * <p>
  *
  * @author Udo Borkowski (ub@abego.org)
  */
@@ -68,9 +65,6 @@ public class DiagramGenerator {
         return treeLayout.getNodeBounds().get(node);
     }
 
-    /**
-     * @param treeLayout the {@link TreeLayout} to be rendered as SVG
-     */
     public DiagramGenerator(TreeLayout<ClassComponent> treeLayout, double leftOffset) {
         this.treeLayout = treeLayout;
         this.classDTOs = new ArrayList<>();
@@ -79,15 +73,12 @@ public class DiagramGenerator {
 
     }
 
-    // -------------------------------------------------------------------
-    // generating
-
     private void generateEdges(ClassComponent parent) {
         if (!getTree().isLeaf(parent)) {
             Rectangle2D.Double b1 = getBoundsOfNode(parent);
             double x1 = b1.getCenterX();
             double y1 = b1.getCenterY();
-            for (ClassComponent child : getChildren(parent)) {
+            for (ClassComponent child: getChildren(parent)) {
                 Rectangle2D.Double b2 = getBoundsOfNode(child);
                 this.edgeDTOs.add(new EdgeDTO(this.leftOffset + x1, y1, b2.getCenterX(), b2.getCenterY()));
                 generateEdges(child);
@@ -96,15 +87,20 @@ public class DiagramGenerator {
     }
 
     private void generateBox(ClassComponent ClassComponent) {
-        // draw the box in the background
         Rectangle2D.Double box = getBoundsOfNode(ClassComponent);
-        this.classDTOs.add(new ClassDTO(ClassComponent.getFileKey(), this.leftOffset + box.x + 1, box.y + 1, box.width - 2, box.height - 2));
+        ClassDTO classDTO = new ClassDTO(
+                ClassComponent.getFileKey(),
+                this.leftOffset + box.x + 1,
+                box.y + 1,
+                box.width - 2,
+                box.height - 2
+        );
+        this.classDTOs.add(classDTO);
     }
 
     private void generateDiagram() {
-        // generate the edges and boxes (with text)
         generateEdges(getTree().getRoot());
-        for (ClassComponent ClassComponent : treeLayout.getNodeBounds().keySet()) {
+        for (ClassComponent ClassComponent: treeLayout.getNodeBounds().keySet()) {
             generateBox(ClassComponent);
         }
     }

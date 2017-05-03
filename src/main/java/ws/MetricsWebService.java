@@ -1,5 +1,6 @@
 package main.java.ws;
 
+import main.java.framework.api.metrics.MetricsRegister;
 import org.sonar.api.server.ws.WebService;
 
 /**
@@ -34,11 +35,22 @@ MetricsWebService implements WebService {
             .setDescription("Get data for system complexity view")
             .setSince("6.3") // ToDo: shouldn't this be version of plugin instead of Sonarqube?
             .setHandler(new DataAction());
-
         action
             .createParam(DataAction.PROJECT_ID)
             .setDescription("Project id")
             .setExampleValue("my_project");
+        action
+            .createParam(DataAction.WIDTH_METRIC)
+            .setDescription("Width metric ")
+            .setExampleValue(MetricsRegister.LOC_CLASS);
+        action
+            .createParam(DataAction.HEIGHT_METRIC)
+            .setDescription("Height metric ")
+            .setExampleValue(MetricsRegister.LOC_CLASS);
+        action
+            .createParam(DataAction.COLOR_METRIC)
+            .setDescription("Color metric ")
+            .setExampleValue(MetricsRegister.LOC_CLASS);
     }
 
     private static void defineMetricsAction(NewController controller) {

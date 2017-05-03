@@ -34,12 +34,12 @@ public class ComplexityViewFacade {
         this.leftOffset = 0;
     }
 
-    public Pair<Collection<ClassDTO>, Collection<EdgeDTO>> getDataFor() {
+    public Pair<Collection<ClassDTO>, Collection<EdgeDTO>> getDataFor(String widthMetric, String heightMetric) {
         TreeFactory treeFactory = new TreeFactory();
         Collection<DefaultTreeForTreeLayout<ClassComponent>> forest = treeFactory.createForestFor(this.projectId);
 
         // create the NodeExtentProvider for ClassComponent nodes
-        this.classExtentProvider = new ClassExtentProvider("loc_class", "loc_class");
+        this.classExtentProvider = new ClassExtentProvider(widthMetric, heightMetric);
 
         // setup the tree layout configuration
         double gapBetweenLevels = 50;

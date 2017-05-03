@@ -18,14 +18,19 @@ public class DataAction implements RequestHandler {
     public static final String PROJECT_ID = "projectId";
     public static final String CLASSES = "classes";
     public static final String EDGES = "edges";
+    public static final String WIDTH_METRIC = "widthMetric";
+    public static final String HEIGHT_METRIC = "heightMetric";
+    public static final String COLOR_METRIC = "colorMetric";
 
     @Override
     public void handle(Request request, Response response) throws Exception {
 
         try (JsonWriter json = response.newJsonWriter()) {
             String projectId = request.param(PROJECT_ID);
+            String widthMetric = request.param(WIDTH_METRIC);
+            String heightMetric = request.param(HEIGHT_METRIC);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
-            Pair<Collection<ClassDTO>, Collection<EdgeDTO>> data = complexityViewFacade.getDataFor();
+            Pair<Collection<ClassDTO>, Collection<EdgeDTO>> data = complexityViewFacade.getDataFor(widthMetric, heightMetric);
 
 
             json.beginObject();

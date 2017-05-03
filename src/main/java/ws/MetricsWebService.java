@@ -18,6 +18,7 @@ MetricsWebService implements WebService {
             .setSince("6.3");
         defineExampleAction(controller);
         defineDataAction(controller);
+        defineMetricsAction(controller);
         controller.done();
     }
 
@@ -31,12 +32,19 @@ MetricsWebService implements WebService {
     private static void defineDataAction(NewController controller) {
         WebService.NewAction action = controller.createAction("data")
             .setDescription("Get data for system complexity view")
-            .setSince("6.3")
+            .setSince("6.3") // ToDo: shouldn't this be version of plugin instead of Sonarqube?
             .setHandler(new DataAction());
 
         action
             .createParam(DataAction.PROJECT_ID)
             .setDescription("Project id")
             .setExampleValue("my_project");
+    }
+
+    private static void defineMetricsAction(NewController controller) {
+       controller.createAction("metrics")
+            .setDescription("Get possible metrics")
+            .setSince("6.3")
+            .setHandler(new MetricsAction());
     }
 }

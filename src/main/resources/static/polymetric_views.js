@@ -26,7 +26,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
         var selectsDiv = frame.append("div");
 
 
-        window.SonarRequest.getJSON('/api/polymetric_views_service/metrics', {projectName: options.component.key}).then(function (response) {
+        window.SonarRequest.getJSON('/api/polymetric_views_service/metrics', {}).then(function (response) {
             console.log(response);
 
 
@@ -72,7 +72,9 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             .attr("width", width)
             .attr("height", height);
 
-/*        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectId: options.component.key}).then(function (response) {
+       window.SonarRequest.getJSON('/api/polymetric_views_service/data', {"widthMetric": "loc_class", "projectId": options.component.key,  "heightMetric": "noa", "colorMetric": "loc_class"}).then(function (response) {
+                console.log(response);
+
                 var rect = svg.selectAll("rect")
                     .data(response.classes)
                     .enter().append("rect")
@@ -111,7 +113,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     });
 
             }
-        );*/
+        );
 
 
 

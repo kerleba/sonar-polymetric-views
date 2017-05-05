@@ -92,8 +92,8 @@ public class DiagramGenerator {
                 ClassComponent.getFileKey(),
                 this.leftOffset + box.x + 1,
                 box.y + 1,
-                box.width - 2,
-                box.height - 2
+                box.width + 1,
+                box.height + 1
         );
         this.classDTOs.add(classDTO);
     }

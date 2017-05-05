@@ -38,19 +38,23 @@ MetricsWebService implements WebService {
         action
             .createParam(DataAction.PROJECT_ID)
             .setDescription("Project id")
+            .setRequired(true)
             .setExampleValue("my_project");
         action
             .createParam(DataAction.WIDTH_METRIC)
             .setDescription("Width metric ")
-            .setExampleValue(MetricsRegister.LOC_CLASS);
+            .setRequired(true)
+            .setExampleValue(MetricsRegister.LOC_CLASS.getKey());
         action
             .createParam(DataAction.HEIGHT_METRIC)
             .setDescription("Height metric ")
-            .setExampleValue(MetricsRegister.LOC_CLASS);
+            .setRequired(true)
+            .setExampleValue(MetricsRegister.LOC_CLASS.getKey());
         action
             .createParam(DataAction.COLOR_METRIC)
             .setDescription("Color metric ")
-            .setExampleValue(MetricsRegister.LOC_CLASS);
+            .setRequired(true)
+            .setExampleValue(MetricsRegister.LOC_CLASS.getKey());
     }
 
     private static void defineMetricsAction(NewController controller) {

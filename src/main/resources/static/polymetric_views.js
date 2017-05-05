@@ -5,36 +5,16 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
     imported.src = 'https://d3js.org/d3.v4.min.js';
     imported.onload = function () {
 
-        window.SonarRequest.getJSON('/api/polymetric_views_service/example', {projectName: options.component.key}).then(function (response) {
-            console.log(options.component.key);
-            console.log(response)
-        });
 
 
         var imported = document.createElement('script');
         document.head.appendChild(imported);
 
-        var data_options = ["Lines of code", "Number of attributes", "Cyclomatic complexity"];
 
-        var data_selects = ["Width: ", "Height: ", "Color: "];
-
-        var selects = d3.select(options.el)
-            .selectAll('select')
-            .data(data_selects).enter()
-            .append('select')
-            .attr('class', 'select')
-            .on('change', onchange);
-
-        var option = selects
-            .selectAll('option')
-            .data(data_options).enter()
-            .append('option')
-            .text(function (d) {
-                return d;
-            });
 
 
         var width = 2500;
+
         var height = 700;
 
         var frame = d3.select(options.el).append("div")
@@ -43,6 +23,48 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
         frame.append("h2")
             .text("This is my page with polymetric views!");
 
+        var selectsDiv = frame.append("div");
+
+
+        window.SonarRequest.getJSON('/api/polymetric_views_service/metrics', {projectName: options.component.key}).then(function (response) {
+            console.log(response);
+
+
+            var data_options = response.metrics;
+
+            var data_selects = [ { text: "Width: ", name: "width"}, {text: "Height: ", name: "height"}, { text: "Color: ", name: "color"}];
+
+            var selects = selectsDiv
+                .selectAll('select')
+                .data(data_selects).enter()
+                .append('label')
+                .attr("for", function (d) {
+                    return d.name;
+                })
+                .text(function (d) {
+                    return d.text;
+                })
+                .append('select')
+                .attr('class', 'select')
+                .attr('name', function (d) {
+                    return d.name;
+                })
+                .on('change', onchange);
+
+
+            var option = selects
+                .selectAll('option')
+                .data(data_options).enter()
+                .append('option')
+                .attr("value", function (d) {
+                    return d.key;
+                })
+                .text(function (d) {
+                    return d.name;
+                });
+
+        });
+
         var div = frame.append("div")
             .attr("style", "margin-top: 2em ");
 
@@ -50,9 +72,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             .attr("width", width)
             .attr("height", height);
 
-        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectId: options.component.key}).then(function (response) {
-                console.log(response);
-
+/*        window.SonarRequest.getJSON('/api/polymetric_views_service/data', {projectId: options.component.key}).then(function (response) {
                 var rect = svg.selectAll("rect")
                     .data(response.classes)
                     .enter().append("rect")
@@ -91,7 +111,8 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     });
 
             }
-        );
+        );*/
+
 
 
     };

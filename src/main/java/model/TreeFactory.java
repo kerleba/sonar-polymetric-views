@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 public class TreeFactory {
 
     private Collection<ClassComponent> getClassesForProject(String projectId) {
-        Collection<ClassComponent> components = Database.getClassComponents();
-        return components.stream().filter(x -> x.getSonarProjectID().equals(projectId)).collect(Collectors.toList());
+        return Database.getTreeOfClassComponents(projectId);
     }
 
     public Collection<DefaultTreeForTreeLayout<ClassComponent>> createForestFor(String projectId) {

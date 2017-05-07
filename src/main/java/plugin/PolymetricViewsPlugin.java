@@ -1,5 +1,7 @@
 package main.java.plugin;
 
+import main.java.framework.db.Configuration;
+import main.java.framework.db.DataSourceProvider;
 import main.java.ws.MetricsWebService;
 import org.sonar.api.Plugin;
 
@@ -16,6 +18,9 @@ public class PolymetricViewsPlugin implements Plugin {
      */
     public PolymetricViewsPlugin() {
         super();
+
+        Configuration configuration = Configuration.INSTANCE;
+        DataSourceProvider.setConfiguration(configuration);
     }
 
 

@@ -27,6 +27,7 @@ public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {
     public double getWidth(ClassComponent classComponent) {
         if (!classComponent.getMeasures().containsKey(this.widthMetric)) {
             this.log.warn("ClassComponent " + classComponent.getFileKey() + " does not have measurement for metric " + this.widthMetric);
+            return 0;
         }
         return classComponent.getMeasures().get(this.widthMetric);
     }
@@ -35,6 +36,7 @@ public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {
     public double getHeight(ClassComponent classComponent) {
         if (!classComponent.getMeasures().containsKey(this.heightMetric)) {
             this.log.warn("ClassComponent " + classComponent.getFileKey() + " does not have measurement for metric " + this.heightMetric);
+            return 0;
         }
         return classComponent.getMeasures().get(this.heightMetric);
     }

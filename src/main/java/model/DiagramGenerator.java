@@ -77,10 +77,10 @@ public class DiagramGenerator {
         if (!getTree().isLeaf(parent)) {
             Rectangle2D.Double b1 = getBoundsOfNode(parent);
             double x1 = b1.getCenterX();
-            double y1 = b1.getCenterY();
+            double y1 = b1.getMaxY();
             for (ClassComponent child: getChildren(parent)) {
                 Rectangle2D.Double b2 = getBoundsOfNode(child);
-                this.edgeDTOs.add(new EdgeDTO(this.leftOffset + x1, y1, b2.getCenterX(), b2.getCenterY()));
+                this.edgeDTOs.add(new EdgeDTO(this.leftOffset + x1, y1, this.leftOffset + b2.getCenterX(), b2.getMinY()));
                 generateEdges(child);
             }
         }

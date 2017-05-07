@@ -20,7 +20,7 @@ public class ComplexityViewFacade {
     private String projectId;
     
     private ClassExtentProvider classExtentProvider;
-    private  DefaultConfiguration<ClassComponent> configuration;
+    private DefaultConfiguration<ClassComponent> configuration;
 
     private Collection<ClassDTO> classDTOs;
     private Collection<EdgeDTO> edgeDTOs;

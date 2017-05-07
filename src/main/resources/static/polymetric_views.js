@@ -25,6 +25,14 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
 
         var selectsDiv = frame.append("div");
 
+        function onchange() {
+            widthSelect = d3.select("#width").node().value;
+            heightSelect = d3.select("#height").node().value;
+            colorSelect = d3.select("#color").node().value;
+
+            loadData(widthSelect, heightSelect, colorSelect);
+        }
+
 
         window.SonarRequest.getJSON('/api/polymetric_views_service/metrics', {}).then(function (response) {
             console.log(response);
@@ -49,6 +57,9 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 .attr('name', function (d) {
                     return d.name;
                 })
+                .attr('id', function (d) {
+                    return d.name;
+                })
                 .on('change', onchange);
 
 
@@ -63,59 +74,63 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                     return d.name;
                 });
 
+            onchange();
         });
 
         var div = frame.append("div")
             .attr("style", "margin-top: 2em ");
 
-        var svg = div.append("svg")
-            .attr("width", width)
-            .attr("height", height);
+        function loadData(widthMetric, heightMetric, colorMetric) {
+            div.select("svg").remove();
 
-       window.SonarRequest.getJSON('/api/polymetric_views_service/data', {"widthMetric": "loc_class", "projectId": options.component.key,  "heightMetric": "noa", "colorMetric": "loc_class"}).then(function (response) {
-                console.log(response);
+            var svg = div.append("svg")
+                .attr("width", width)
+                .attr("height", height);
 
-                var rect = svg.selectAll("rect")
-                    .data(response.classes)
-                    .enter().append("rect")
-                    .attr("style", "fill:rgb(188, 188, 186);stroke-width:1;stroke:rgb(0,0,0)")
-                    .attr("width", function (d) {
-                        return d.width;
-                    })
-                    .attr("height", function (d) {
-                        return d.height;
-                    })
-                    .attr("x", function (d) {
-                        return d.x;
-                    })
-                    .attr("y", function (d) {
-                        return d.y;
-                    })
-                    .attr("class", function (d) {
-                        return d.name;
-                    });
+            window.SonarRequest.getJSON('/api/polymetric_views_service/data', {"widthMetric": widthMetric, "projectId": options.component.key,  "heightMetric": heightMetric, "colorMetric": colorMetric}).then(function (response) {
+                    console.log(response);
 
-                var line = svg.selectAll("line")
-                    .data(response.edges)
-                    .enter().append("line")
-                    .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")
-                    .attr("x1", function (d) {
-                        return d.startX;
-                    })
-                    .attr("x2", function (d) {
-                        return d.endX;
-                    })
-                    .attr("y1", function (d) {
-                        return d.startY;
-                    })
-                    .attr("y2", function (d) {
-                        return d.endY;
-                    });
+                    var rect = svg.selectAll("rect")
+                        .data(response.classes)
+                        .enter().append("rect")
+                        .attr("style", "fill:rgb(188, 188, 186);stroke-width:1;stroke:rgb(0,0,0)")
+                        .attr("width", function (d) {
+                            return d.width;
+                        })
+                        .attr("height", function (d) {
+                            return d.height;
+                        })
+                        .attr("x", function (d) {
+                            return d.x;
+                        })
+                        .attr("y", function (d) {
+                            return d.y;
+                        })
+                        .attr("class", function (d) {
+                            return d.name;
+                        });
 
-            }
-        );
+                    var line = svg.selectAll("line")
+                        .data(response.edges)
+                        .enter().append("line")
+                        .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")
+                        .attr("x1", function (d) {
+                            return d.startX;
+                        })
+                        .attr("x2", function (d) {
+                            return d.endX;
+                        })
+                        .attr("y1", function (d) {
+                            return d.startY;
+                        })
+                        .attr("y2", function (d) {
+                            return d.endY;
+                        });
 
+                }
+            );
 
+        }
 
     };
 

@@ -17,17 +17,9 @@ MetricsWebService implements WebService {
         NewController controller = context.createController("api/polymetric_views_service")
             .setDescription("Api for polymetric views visualisation")
             .setSince("6.3");
-        defineExampleAction(controller);
         defineDataAction(controller);
         defineMetricsAction(controller);
         controller.done();
-    }
-
-    private static void defineExampleAction(NewController controller) {
-        controller.createAction("example")
-            .setDescription("Example action")
-            .setSince("6.3")
-            .setHandler(new ExampleAction());
     }
 
     private static void defineDataAction(NewController controller) {

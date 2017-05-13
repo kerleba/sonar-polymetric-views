@@ -22,8 +22,8 @@ public class MetricsAction implements RequestHandler {
 
         Map<String, String> metrics = new HashMap<>();
         metrics.put(MetricsRegister.LOC_CLASS.getKey(), "Lines of code");
-        metrics.put(MetricsRegister.ATFD.getKey(), MetricsRegister.ATFD.getDescription());
         metrics.put(MetricsRegister.NOA.getKey(), MetricsRegister.NOA.getDescription());
+        metrics.put(MetricsRegister.NOM.getKey(), MetricsRegister.NOM.getDescription());
 
 
         try (JsonWriter json = response.newJsonWriter()) {
@@ -32,8 +32,6 @@ public class MetricsAction implements RequestHandler {
 
             json.name(METRICS);
             json.beginArray();
-
-
             for (Map.Entry<String, String> metric: metrics.entrySet()) {
                 json.beginObject();
                 json.prop(KEY, metric.getKey());

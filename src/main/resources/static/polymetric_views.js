@@ -10,9 +10,6 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
         var imported = document.createElement('script');
         document.head.appendChild(imported);
 
-
-
-
         var width = 2500;
 
         var height = 700;
@@ -114,6 +111,19 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                         })
                         .attr("class", function (d) {
                             return d.name;
+                        })
+                        .append("svg:title")
+                        .append(function(d){
+                            //when the parameter to `append()` is a function
+                            //it will be run for each element in the active selection
+                            //(in this case, the title elements)
+                            //and must return the actual element node to append.
+                            var newLine = "<br/>\n";
+
+                            var span = document.createElement("span");
+                            span.innerHTML = "Filename: " + d.name + newLine + "NOM: " + d.color;
+                            //the \n will be converted in Javascript to a line break
+                            return span;
                         });
 
                     var line = svg.selectAll("line")

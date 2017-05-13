@@ -1,5 +1,6 @@
 package main.java.model;
 
+import main.java.framework.api.Database;
 import main.java.framework.api.components.ClassComponent;
 import org.abego.treelayout.TreeLayout;
 import org.abego.treelayout.util.DefaultConfiguration;
@@ -27,6 +28,9 @@ public class ComplexityViewFacade {
 
     private double leftOffset;
 
+    private static final double GAP_BETWEEN_LEVELS = 50;
+    private static final double GAP_BETWEEN_NODES = 10;
+
     public ComplexityViewFacade(String projectId) {
         this.projectId = projectId;
         this.classDTOs = new ArrayList<>();
@@ -42,9 +46,7 @@ public class ComplexityViewFacade {
         this.classExtentProvider = new ClassExtentProvider(widthMetric, heightMetric);
 
         // setup the tree layout configuration
-        double gapBetweenLevels = 50;
-        double gapBetweenNodes = 10;
-        this.configuration = new DefaultConfiguration<>(gapBetweenLevels, gapBetweenNodes);
+        this.configuration = new DefaultConfiguration<>(GAP_BETWEEN_LEVELS, GAP_BETWEEN_NODES);
 
         for (DefaultTreeForTreeLayout<ClassComponent> tree :
                 forest) {
@@ -64,7 +66,11 @@ public class ComplexityViewFacade {
         DiagramGenerator generator = new DiagramGenerator(treeLayout,this.leftOffset);
         this.classDTOs.addAll(generator.getClasses());
         this.edgeDTOs.addAll(generator.getEdges());
-        this.leftOffset = this.leftOffset + generator.getNewLeftOffset() + 10;
+        this.leftOffset = this.leftOffset + generator.getNewLeftOffset() + GAP_BETWEEN_NODES;
+    }
+
+    public Pair<Integer, Integer> getBoundariesFor(String metric) {
+        return Database.getBoundariesFor(this.projectId, metric);
     }
 
 

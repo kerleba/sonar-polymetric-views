@@ -29,16 +29,21 @@ public class DataAction implements RequestHandler {
             String projectId = request.param(PROJECT_ID);
             String widthMetric = request.param(WIDTH_METRIC);
             String heightMetric = request.param(HEIGHT_METRIC);
+            String colorMetric = request.param(COLOR_METRIC);
             ComplexityViewFacade complexityViewFacade = new ComplexityViewFacade(projectId);
             Pair<Collection<ClassDTO>, Collection<EdgeDTO>> data = complexityViewFacade.getDataFor(widthMetric, heightMetric);
+            Pair<Integer, Integer> colorBoundaries = complexityViewFacade.getBoundariesFor(colorMetric);
 
 
             json.beginObject();
 
+            json.prop("colorMin", colorBoundaries.getLeft());
+            json.prop("colorMax", colorBoundaries.getRight());
+
             json.name(CLASSES);
             json.beginArray();
             for (ClassDTO classDTO: data.getLeft()) {
-                classDTO.toJson(json);
+                classDTO.toJson(json, colorMetric);
             }
             json.endArray();
 

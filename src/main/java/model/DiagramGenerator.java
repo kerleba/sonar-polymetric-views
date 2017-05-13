@@ -86,14 +86,15 @@ public class DiagramGenerator {
         }
     }
 
-    private void generateBox(ClassComponent ClassComponent) {
-        Rectangle2D.Double box = getBoundsOfNode(ClassComponent);
+    private void generateBox(ClassComponent classComponent) {
+        Rectangle2D.Double box = getBoundsOfNode(classComponent);
         ClassDTO classDTO = new ClassDTO(
-                ClassComponent.getFileKey(),
+                classComponent.getFileKey(),
                 this.leftOffset + box.x + 1,
                 box.y + 1,
                 box.width + 1,
-                box.height + 1
+                box.height + 1,
+                classComponent.getMeasures()
         );
         this.classDTOs.add(classDTO);
     }

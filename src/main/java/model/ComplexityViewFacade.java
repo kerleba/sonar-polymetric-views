@@ -1,6 +1,6 @@
 package main.java.model;
 
-import main.java.framework.api.Database;
+import main.java.framework.api.MeasurementRepository;
 import main.java.framework.api.components.ClassComponent;
 import org.abego.treelayout.TreeLayout;
 import org.abego.treelayout.util.DefaultConfiguration;
@@ -41,7 +41,6 @@ public class ComplexityViewFacade {
     public Pair<Collection<ClassDTO>, Collection<EdgeDTO>> getDataFor(String widthMetric, String heightMetric) {
         TreeFactory treeFactory = new TreeFactory();
         Collection<DefaultTreeForTreeLayout<ClassComponent>> forest = treeFactory.createForestFor(this.projectId);
-
         // create the NodeExtentProvider for ClassComponent nodes
         this.classExtentProvider = new ClassExtentProvider(widthMetric, heightMetric);
 
@@ -70,7 +69,7 @@ public class ComplexityViewFacade {
     }
 
     public Pair<Integer, Integer> getBoundariesFor(String metric) {
-        return Database.getBoundariesFor(this.projectId, metric);
+        return MeasurementRepository.getBoundariesFor(this.projectId, metric);
     }
 
 

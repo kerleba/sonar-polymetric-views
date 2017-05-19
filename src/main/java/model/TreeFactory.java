@@ -1,6 +1,6 @@
 package main.java.model;
 
-import main.java.framework.api.Database;
+import main.java.framework.api.MeasurementRepository;
 import main.java.framework.api.components.ClassComponent;
 import org.abego.treelayout.util.DefaultTreeForTreeLayout;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class TreeFactory {
 
     private Collection<ClassComponent> getClassesForProject(String projectId) {
-        return Database.getTreeOfClassComponents(projectId);
+        return MeasurementRepository.getTreeOfClassComponents(projectId);
     }
 
     public Collection<DefaultTreeForTreeLayout<ClassComponent>> createForestFor(String projectId) {

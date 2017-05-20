@@ -1,6 +1,5 @@
 package main.java.model;
 
-import org.sonar.api.internal.google.gson.JsonObject;
 import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.Map;
@@ -12,7 +11,8 @@ import java.util.Map;
  */
 public class ClassDTO {
 
-    // ToDo: Other info to be shown in box
+    private static final String KEY = "key";
+    private static final String VALUE = "value";
 
     private String name;
     private Double x;
@@ -30,10 +30,6 @@ public class ClassDTO {
         this.measures = measures;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void toJson(JsonWriter writer, String colorMetric) {
         writer.beginObject();
         writer.prop("name", this.name);
@@ -42,6 +38,16 @@ public class ClassDTO {
         writer.prop("width", this.width);
         writer.prop("height", this.height);
         writer.prop("color", this.measures.getOrDefault(colorMetric, 0));
+
+        writer.name("metrics");
+        writer.beginArray();
+        for (Map.Entry<String, Integer> metric : measures.entrySet()) {
+            writer.beginObject();
+            writer.prop(KEY, metric.getKey());
+            writer.prop(VALUE, metric.getValue());
+            writer.endObject();
+        }
+        writer.endArray();
         writer.endObject();
     }
 }

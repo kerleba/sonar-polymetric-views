@@ -14,7 +14,6 @@ import java.util.Collection;
 
 public class DataAction implements RequestHandler {
 
-    // ToDo: share constants with JS
     public static final String PROJECT_ID = "projectId";
     public static final String CLASSES = "classes";
     public static final String EDGES = "edges";

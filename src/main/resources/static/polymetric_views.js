@@ -18,7 +18,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             .attr("style", "margin: 2em 2em");
 
         frame.append("h2")
-            .text("This is my page with polymetric views!");
+            .text("System complexity view");
 
         var selectsDiv = frame.append("div");
 
@@ -118,11 +118,17 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                             //it will be run for each element in the active selection
                             //(in this case, the title elements)
                             //and must return the actual element node to append.
+
+                            //the \n will be converted in Javascript to a line break
                             var newLine = "<br/>\n";
 
                             var span = document.createElement("span");
-                            span.innerHTML = "Filename: " + d.name + newLine + "NOM: " + d.color;
-                            //the \n will be converted in Javascript to a line break
+                            span.innerHTML = d.name;
+
+                            for (var i = 0; i < d.metrics.length; i++) {
+                                span.innerHTML += newLine + d.metrics[i].key.toUpperCase() + ": " + d.metrics[i].value;
+                            }
+
                             return span;
                         });
 

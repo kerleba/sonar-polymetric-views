@@ -15,6 +15,8 @@ public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {
     private String widthMetric;
     private String heightMetric;
 
+    private static int INCREASE = 7;
+
     /** The logger object */
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -27,17 +29,17 @@ public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {
     public double getWidth(ClassComponent classComponent) {
         if (!classComponent.getMeasures().containsKey(this.widthMetric)) {
             this.log.warn("ClassComponent " + classComponent.getFileKey() + " does not have measurement for metric " + this.widthMetric);
-            return 0;
+            return INCREASE;
         }
-        return classComponent.getMeasures().get(this.widthMetric);
+        return classComponent.getMeasures().get(this.widthMetric) + INCREASE;
     }
 
     @Override
     public double getHeight(ClassComponent classComponent) {
         if (!classComponent.getMeasures().containsKey(this.heightMetric)) {
             this.log.warn("ClassComponent " + classComponent.getFileKey() + " does not have measurement for metric " + this.heightMetric);
-            return 0;
+            return INCREASE;
         }
-        return classComponent.getMeasures().get(this.heightMetric);
+        return classComponent.getMeasures().get(this.heightMetric) + INCREASE;
     }
 }

@@ -90,10 +90,10 @@ public class DiagramGenerator {
         Rectangle2D.Double box = getBoundsOfNode(classComponent);
         ClassDTO classDTO = new ClassDTO(
                 classComponent.getFileKey(),
-                this.leftOffset + box.x + 1,
-                box.y + 1,
-                box.width + 1,
-                box.height + 1,
+                this.leftOffset + box.x,
+                box.y,
+                box.width,
+                box.height,
                 classComponent.getMeasures()
         );
         this.classDTOs.add(classDTO);

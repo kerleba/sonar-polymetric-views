@@ -35,7 +35,7 @@
         <dependency>
             <groupId>tlestyan.thesis</groupId>
             <artifactId>framework</artifactId>
-            <version>0.1</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <!-- packaged with the plugin -->

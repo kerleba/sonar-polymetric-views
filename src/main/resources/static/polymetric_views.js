@@ -92,7 +92,13 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
 
                     var rect = svg.selectAll("rect")
                         .data(response.classes)
-                        .enter().append("rect")
+                        .enter()
+                        .append("a")
+                        .attr("xlink:href", function (d) {
+                            return "/dashboard?id=" + d.name;
+                        })
+                        .attr("target", "_blank")
+                        .append("rect")
                         .attr("style", function (d) {
                             var style = "stroke-width:1;stroke:rgb(0,0,0);fill:";
                             style += color(d.color);

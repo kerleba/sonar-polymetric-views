@@ -2,6 +2,7 @@ package main.java.model;
 
 import main.java.framework.api.MeasurementRepository;
 import main.java.framework.api.components.ClassComponent;
+import org.abego.treelayout.Configuration;
 import org.abego.treelayout.TreeLayout;
 import org.abego.treelayout.util.DefaultConfiguration;
 import org.abego.treelayout.util.DefaultTreeForTreeLayout;
@@ -45,7 +46,7 @@ public class ComplexityViewFacade {
         this.classExtentProvider = new ClassExtentProvider(widthMetric, heightMetric);
 
         // setup the tree layout configuration
-        this.configuration = new DefaultConfiguration<>(GAP_BETWEEN_LEVELS, GAP_BETWEEN_NODES);
+        this.configuration = new DefaultConfiguration<>(GAP_BETWEEN_LEVELS, GAP_BETWEEN_NODES, Configuration.Location.Top, Configuration.AlignmentInLevel.TowardsRoot);
 
         for (DefaultTreeForTreeLayout<ClassComponent> tree :
                 forest) {

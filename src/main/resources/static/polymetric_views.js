@@ -51,6 +51,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 })
                 .append('select')
                 .attr('class', 'select')
+                .attr('style', 'margin-right: 2em')
                 .attr('name', function (d) {
                     return d.name;
                 })

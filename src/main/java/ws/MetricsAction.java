@@ -24,6 +24,10 @@ public class MetricsAction implements RequestHandler {
         metrics.put(MetricsRegister.LOC_CLASS.getKey(), "Lines of code");
         metrics.put(MetricsRegister.NOA.getKey(), MetricsRegister.NOA.getDescription());
         metrics.put(MetricsRegister.NOM.getKey(), MetricsRegister.NOM.getDescription());
+        metrics.put(MetricsRegister.CYCLO_AVERAGE.getKey(), MetricsRegister.CYCLO_AVERAGE.getDescription());
+        metrics.put(MetricsRegister.CYCLO_MAXIMUM.getKey(), MetricsRegister.CYCLO_MAXIMUM.getDescription());
+        metrics.put(MetricsRegister.CYCLO_TOTAL.getKey(), MetricsRegister.CYCLO_TOTAL.getDescription());
+
 
 
         try (JsonWriter json = response.newJsonWriter()) {

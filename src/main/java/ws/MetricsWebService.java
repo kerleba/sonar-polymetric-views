@@ -1,6 +1,9 @@
 package main.java.ws;
 
 import main.java.framework.api.metrics.MetricsRegister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 import org.sonar.api.server.ws.WebService;
 
 /**
@@ -11,9 +14,18 @@ import org.sonar.api.server.ws.WebService;
 public class
 MetricsWebService implements WebService {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+
+    private final Settings settings;
+
+    public MetricsWebService(Settings settings) {
+        this.settings = settings;
+    }
 
     @Override
     public void define(Context context) {
+        log.warn(settings.getString("sonar.jdbc.url"));
         NewController controller = context.createController("api/polymetric_views_service")
             .setDescription("Api for polymetric views visualisation")
             .setSince("6.3");

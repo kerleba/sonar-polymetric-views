@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * ToDo: create javadoc
- *
  * @author Klara Erlebachova
  */
 public class ComplexityViewFacade {

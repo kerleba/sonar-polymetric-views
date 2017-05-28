@@ -6,7 +6,7 @@
     <name>sonar-polymetric-views</name>
     <groupId>kerleba.plugins</groupId>
     <artifactId>kerleba.plugins.sonarqube.polymetric-views</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
     <packaging>sonar-plugin</packaging>
     <description>Plugin for SonarQube: visualisation of polymetric view
     </description>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>tlestyan.thesis</groupId>
             <artifactId>framework</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <!-- packaged with the plugin -->

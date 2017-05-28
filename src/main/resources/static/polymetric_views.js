@@ -95,7 +95,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                         .enter()
                         .append("a")
                         .attr("xlink:href", function (d) {
-                            return "/dashboard?id=" + d.name;
+                            return "/dashboard?id=" + d.filekey;
                         })
                         .attr("target", "_blank")
                         .append("rect")
@@ -115,9 +115,6 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                         })
                         .attr("y", function (d) {
                             return d.y;
-                        })
-                        .attr("class", function (d) {
-                            return d.name;
                         })
                         .append("svg:title")
                         .append(function(d){

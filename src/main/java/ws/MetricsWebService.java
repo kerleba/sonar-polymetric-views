@@ -4,8 +4,6 @@ import main.java.framework.api.metrics.MetricsRegister;
 import org.sonar.api.server.ws.WebService;
 
 /**
- * ToDo: create javadoc
- *
  * @author Klara Erlebachova
  */
 public class

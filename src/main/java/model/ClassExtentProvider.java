@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ToDo: create javadoc
- *
  * @author Klara Erlebachova
  */
 public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {

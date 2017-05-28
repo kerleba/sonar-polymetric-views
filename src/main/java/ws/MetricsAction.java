@@ -17,25 +17,37 @@ public class MetricsAction implements RequestHandler {
     public static final String NAME = "name";
     public static final String KEY = "key";
 
-    private String formatMetricDescription(Metric metric) {
-        return metric.getDescription() + " (" + metric.getKey().toUpperCase() + ")";
+    private String formatMetricDescription(Metric metric, String customDescription) {
+        return String.format("%s (%s)",
+                customDescription != null ? customDescription: metric.getDescription(),
+                metric.getKey().toUpperCase()
+        );
     }
+
+    private Map<String, String> addMetric(Map<String, String> metrics, Metric metric, String customDescription) {
+        metrics.put(metric.getKey(), formatMetricDescription(metric, customDescription));
+        return metrics;
+    }
+
+    private Map<String, String> addMetric(Map<String, String> metrics, Metric metric) {
+        return addMetric(metrics, metric, null);
+    }
+
+
 
     @Override
     public void handle(Request request, Response response) throws Exception {
 
-
         Map<String, String> metrics = new HashMap<>();
-        metrics.put(MetricsRegister.LOC_CLASS.getKey(), "Lines of code (" + MetricsRegister.LOC_CLASS.getKey().toUpperCase() + ")" );
-        metrics.put(MetricsRegister.NOA.getKey(), formatMetricDescription(MetricsRegister.NOA));
-        metrics.put(MetricsRegister.NOM.getKey(), formatMetricDescription(MetricsRegister.NOM));
-        metrics.put(MetricsRegister.CYCLO_AVERAGE.getKey(), formatMetricDescription(MetricsRegister.CYCLO_AVERAGE));
-        metrics.put(MetricsRegister.CYCLO_MAXIMUM.getKey(), formatMetricDescription(MetricsRegister.CYCLO_MAXIMUM));
-        metrics.put(MetricsRegister.CYCLO_TOTAL.getKey(), formatMetricDescription(MetricsRegister.CYCLO_TOTAL));
-        metrics.put(MetricsRegister.WMC.getKey(), formatMetricDescription(MetricsRegister.WMC));
-        metrics.put(MetricsRegister.ATFD_CLASS.getKey(), formatMetricDescription(MetricsRegister.ATFD_CLASS));
-        metrics.put(MetricsRegister.TCC.getKey(), formatMetricDescription(MetricsRegister.TCC));
 
+        metrics = addMetric(metrics, MetricsRegister.NOA);
+        metrics = addMetric(metrics, MetricsRegister.NOM);
+        metrics = addMetric(metrics, MetricsRegister.CYCLO_AVERAGE);
+        metrics = addMetric(metrics, MetricsRegister.CYCLO_MAXIMUM);
+        metrics = addMetric(metrics, MetricsRegister.CYCLO_TOTAL);
+        metrics = addMetric(metrics, MetricsRegister.ATFD_CLASS);
+        metrics = addMetric(metrics, MetricsRegister.TCC);
+        metrics = addMetric(metrics, MetricsRegister.LOC_CLASS, "Lines of code");
 
 
         try (JsonWriter json = response.newJsonWriter()) {

@@ -39,10 +39,6 @@ import org.abego.treelayout.TreeForTreeLayout;
 import org.abego.treelayout.TreeLayout;
 
 
-/**
- *
- * @author Udo Borkowski (ub@abego.org)
- */
 public class DiagramGenerator {
     private final TreeLayout<ClassComponent> treeLayout;
 
@@ -70,7 +66,6 @@ public class DiagramGenerator {
         this.classDTOs = new ArrayList<>();
         this.edgeDTOs = new ArrayList<>();
         this.leftOffset = leftOffset;
-
     }
 
     private void generateEdges(ClassComponent parent) {
@@ -89,6 +84,7 @@ public class DiagramGenerator {
     private void generateBox(ClassComponent classComponent) {
         Rectangle2D.Double box = getBoundsOfNode(classComponent);
         ClassDTO classDTO = new ClassDTO(
+                classComponent.getID(),
                 classComponent.getFileKey(),
                 this.leftOffset + box.x,
                 box.y,

@@ -5,10 +5,11 @@ import org.sonar.api.web.page.Page;
 import org.sonar.api.web.page.PageDefinition;
 
 /**
- * The widget initialization class
+ * The page initialization class
  * @author Klara Erlebachova
  */
 public class PolymetricViewsPageDefinition implements PageDefinition {
+
     @Override
     public void define(Context context) {
         context.addPage(

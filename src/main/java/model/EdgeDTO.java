@@ -1,10 +1,8 @@
 package main.java.model;
 
-import org.sonar.api.internal.google.gson.JsonObject;
 import org.sonar.api.utils.text.JsonWriter;
 
 /**
- * ToDo: create javadoc
  *
  * @author Klara Erlebachova
  */

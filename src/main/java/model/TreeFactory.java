@@ -6,12 +6,9 @@ import org.abego.treelayout.util.DefaultTreeForTreeLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 
 /**
- * ToDo: create javadoc
- *
  * @author Klara Erlebachova
  */
 public class TreeFactory {

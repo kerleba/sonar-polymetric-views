@@ -4,6 +4,8 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
 
     imported.src = 'https://d3js.org/d3.v4.min.js';
     imported.onload = function () {
+       // var zoom = d3.behavior.zoom()
+       //     .scaleExtent([1, 10]);
 
 
 
@@ -76,14 +78,27 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
         });
 
         var div = frame.append("div")
-            .attr("style", "margin-top: 2em ");
+            .attr("style", "margin-top: 2em ")
+            .attr("width", "100%")
+            .attr("height", "100%");
 
         function loadData(widthMetric, heightMetric, colorMetric) {
             div.select("svg").remove();
 
             var svg = div.append("svg")
-                .attr("width", width)
-                .attr("height", height);
+                .attr("width", "5000")
+                .attr("height", "2500");
+
+            g = svg.append("g");
+
+
+            // then, create the zoom behvavior
+            var zoom = d3.zoom().on("zoom", function () {
+                svg.attr("transform", d3.event.transform)
+            });
+
+
+            //svg.call(zoom);
 
             window.SonarRequest.getJSON('/api/polymetric_views_service/data', {"widthMetric": widthMetric, "projectId": options.component.key,  "heightMetric": heightMetric, "colorMetric": colorMetric}).then(function (response) {
                     console.log(response);

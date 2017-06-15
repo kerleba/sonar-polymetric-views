@@ -6,15 +6,14 @@ import org.sonar.api.server.ws.WebService;
 /**
  * @author Klara Erlebachova
  */
-public class
-MetricsWebService implements WebService {
+public class MetricsWebService implements WebService {
 
 
     @Override
     public void define(Context context) {
         NewController controller = context.createController("api/polymetric_views_service")
             .setDescription("Api for polymetric views visualisation")
-            .setSince("6.3");
+            .setSince("0.1");
         defineDataAction(controller);
         defineMetricsAction(controller);
         controller.done();
@@ -23,7 +22,7 @@ MetricsWebService implements WebService {
     private static void defineDataAction(NewController controller) {
         WebService.NewAction action = controller.createAction("data")
             .setDescription("Get data for system complexity view")
-            .setSince("6.3") // ToDo: shouldn't this be version of plugin instead of Sonarqube?
+            .setSince("0.1")
             .setHandler(new DataAction());
         action
             .createParam(DataAction.PROJECT_ID)
@@ -50,7 +49,7 @@ MetricsWebService implements WebService {
     private static void defineMetricsAction(NewController controller) {
        controller.createAction("metrics")
             .setDescription("Get possible metrics")
-            .setSince("6.3")
+            .setSince("0.1")
             .setHandler(new MetricsAction());
     }
 }

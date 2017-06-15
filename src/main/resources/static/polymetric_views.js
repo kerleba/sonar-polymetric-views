@@ -23,9 +23,9 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
         var selectsDiv = frame.append("div");
 
         function onchange() {
-            widthSelect = d3.select("#width").node().value;
-            heightSelect = d3.select("#height").node().value;
-            colorSelect = d3.select("#color").node().value;
+            var widthSelect = d3.select("#width").node().value;
+            var heightSelect = d3.select("#height").node().value;
+            var colorSelect = d3.select("#color").node().value;
 
             loadData(widthSelect, heightSelect, colorSelect);
         }
@@ -61,7 +61,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                 .on('change', onchange);
 
 
-            var option = selects
+            selects
                 .selectAll('option')
                 .data(data_options).enter()
                 .append('option')
@@ -90,7 +90,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
 
                     var color=d3.scale.linear().domain([response.colorMin,response.colorMax]).range(["white","black"]);
 
-                    var rect = svg.selectAll("rect")
+                    svg.selectAll("rect")
                         .data(response.classes)
                         .enter()
                         .append("a")
@@ -136,7 +136,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
                             return span;
                         });
 
-                    var line = svg.selectAll("line")
+                    svg.selectAll("line")
                         .data(response.edges)
                         .enter().append("line")
                         .attr("style", "stroke:rgb(30, 30, 29);stroke-width:2")

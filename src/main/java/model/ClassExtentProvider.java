@@ -13,7 +13,7 @@ public class ClassExtentProvider implements NodeExtentProvider<ClassComponent> {
     private String widthMetric;
     private String heightMetric;
 
-    private static int INCREASE = 7;
+    private static final int INCREASE = 7;
 
     /** The logger object */
     private final Logger log = LoggerFactory.getLogger(this.getClass());

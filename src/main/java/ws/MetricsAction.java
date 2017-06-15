@@ -14,8 +14,8 @@ import java.util.Map;
 public class MetricsAction implements RequestHandler {
 
     private static final String METRICS = "metrics";
-    public static final String NAME = "name";
-    public static final String KEY = "key";
+    private static final String NAME = "name";
+    private static final String KEY = "key";
 
     private String formatMetricDescription(Metric metric, String customDescription) {
         return String.format("%s (%s)",

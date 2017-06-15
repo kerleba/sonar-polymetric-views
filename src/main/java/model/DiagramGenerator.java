@@ -49,6 +49,13 @@ public class DiagramGenerator {
 
     private boolean cached = false;
 
+    public DiagramGenerator(TreeLayout<ClassComponent> treeLayout, double leftOffset) {
+        this.treeLayout = treeLayout;
+        this.classDTOs = new ArrayList<>();
+        this.edgeDTOs = new ArrayList<>();
+        this.leftOffset = leftOffset;
+    }
+
     private TreeForTreeLayout<ClassComponent> getTree() {
         return treeLayout.getTree();
     }
@@ -59,13 +66,6 @@ public class DiagramGenerator {
 
     private Rectangle2D.Double getBoundsOfNode(ClassComponent node) {
         return treeLayout.getNodeBounds().get(node);
-    }
-
-    public DiagramGenerator(TreeLayout<ClassComponent> treeLayout, double leftOffset) {
-        this.treeLayout = treeLayout;
-        this.classDTOs = new ArrayList<>();
-        this.edgeDTOs = new ArrayList<>();
-        this.leftOffset = leftOffset;
     }
 
     private void generateEdges(ClassComponent parent) {
@@ -101,7 +101,6 @@ public class DiagramGenerator {
             generateBox(ClassComponent);
         }
     }
-
 
     public Collection<ClassDTO> getClasses() {
         if (!this.cached) {

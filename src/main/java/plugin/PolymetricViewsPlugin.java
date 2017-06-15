@@ -24,13 +24,14 @@ public class PolymetricViewsPlugin implements Plugin {
     }
 
 
-
-    /* (non-Javadoc)
-         * @see org.sonar.api.Plugin#define(org.sonar.api.Plugin.Context)
-         */
+    /**
+     * (non-Javadoc)
+     *
+     * @see org.sonar.api.Plugin#define(org.sonar.api.Plugin.Context)
+     */
     @Override
     public void define(Context context) {
         context.addExtension(PolymetricViewsPageDefinition.class);
         context.addExtension(MetricsWebService.class);
-    }   
+    }
 }

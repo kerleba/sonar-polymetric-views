@@ -88,7 +88,7 @@ window.registerExtension('sonarPolymetricViews/polymetric_views', function (opti
             window.SonarRequest.getJSON('/api/polymetric_views_service/data', {"widthMetric": widthMetric, "projectId": options.component.key,  "heightMetric": heightMetric, "colorMetric": colorMetric}).then(function (response) {
                     console.log(response);
 
-                    var color=d3.scale.linear().domain([response.colorMin,response.colorMax]).range(["white","black"]);
+                    var color = d3.scaleLinear().domain([response.colorMin,response.colorMax]).range(["white","black"]);
 
                     svg.selectAll("rect")
                         .data(response.classes)
